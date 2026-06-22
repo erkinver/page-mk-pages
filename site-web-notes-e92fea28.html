@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.2, user-scalable=yes">
+  <title>竞彩网介绍 — 信息卡片 · 即刻识别</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #f4faf9;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      color: #1a2e3a;
+      line-height: 1.6;
+      padding: 24px 16px 48px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .page-wrapper {
+      max-width: 1040px;
+      width: 100%;
+    }
+
+    /* 主视觉 - 信息标题 / hero 精简 */
+    .hero-card {
+      background: linear-gradient(145deg, #dff3ef 0%, #b7dfd6 100%);
+      padding: 36px 28px 32px;
+      border-radius: 40px 40px 40px 20px;
+      box-shadow: 0 8px 18px rgba(38, 90, 80, 0.08);
+      margin-bottom: 36px;
+      transition: all 0.2s;
+    }
+
+    .hero-card h1 {
+      font-size: 2.4rem;
+      font-weight: 550;
+      letter-spacing: -0.02em;
+      color: #0a3340;
+      line-height: 1.2;
+      margin-bottom: 12px;
+    }
+
+    .hero-card .sub {
+      font-size: 1.05rem;
+      color: #1c4b55;
+      max-width: 600px;
+      background: rgba(255, 255, 255, 0.5);
+      padding: 8px 16px;
+      border-radius: 100px;
+      display: inline-block;
+      backdrop-filter: blur(2px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+    }
+
+    .hero-card p {
+      margin-top: 18px;
+      font-size: 1rem;
+      color: #1a3f48;
+    }
+
+    /* 用途卡片 + 蓝绿色点缀网格 */
+    .card-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+      margin-bottom: 44px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 32px;
+      padding: 24px 22px 28px;
+      box-shadow: 0 4px 12px rgba(38, 80, 73, 0.06);
+      transition: transform 0.1s ease, box-shadow 0.2s;
+      border: 1px solid #e3f0ed;
+    }
+
+    .card:hover {
+      box-shadow: 0 8px 20px rgba(40, 100, 90, 0.10);
+      transform: translateY(-2px);
+    }
+
+    .card .icon-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #d1ece6;
+      color: #0b4a51;
+      font-size: 0.8rem;
+      font-weight: 500;
+      padding: 6px 14px;
+      border-radius: 40px;
+      margin-bottom: 14px;
+      letter-spacing: 0.3px;
+    }
+
+    .card h3 {
+      font-size: 1.35rem;
+      font-weight: 520;
+      margin-bottom: 10px;
+      color: #0d3b44;
+    }
+
+    .card p {
+      font-size: 0.98rem;
+      color: #2c4b55;
+    }
+
+    .card ul {
+      list-style: none;
+      margin-top: 12px;
+    }
+
+    .card ul li {
+      padding: 6px 0 6px 24px;
+      position: relative;
+      font-size: 0.95rem;
+      color: #1f434f;
+      border-bottom: 1px dashed #d4e8e3;
+    }
+
+    .card ul li:last-child {
+      border-bottom: none;
+    }
+
+    .card ul li::before {
+      content: "◈";
+      position: absolute;
+      left: 0;
+      color: #2c9b87;
+      font-size: 0.85rem;
+    }
+
+    .card-note {
+      background: white;
+      border-radius: 24px;
+      padding: 22px 26px;
+      border-left: 6px solid #3baa97;
+      margin: 20px 0 28px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.02);
+    }
+
+    .card-note p {
+      font-size: 0.98rem;
+    }
+
+    /* 适合人群双卡片 */
+    .audience-flex {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin: 28px 0 32px;
+    }
+
+    .audience-item {
+      flex: 1 1 180px;
+      background: #f0f9f6;
+      padding: 18px 18px 20px;
+      border-radius: 28px;
+      border: 1px solid #cde5df;
+    }
+
+    .audience-item .emoji-badge {
+      font-size: 1.6rem;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .audience-item h4 {
+      font-weight: 520;
+      color: #10434f;
+      margin-bottom: 6px;
+    }
+
+    .audience-item p {
+      font-size: 0.9rem;
+      color: #2c5b63;
+    }
+
+    /* 自然链接段落 + 卡片式 */
+    .link-block {
+      background: #fafffd;
+      border-radius: 30px;
+      padding: 28px 30px;
+      margin: 30px 0 28px;
+      border: 1px solid #cbe3dd;
+      box-shadow: 0 6px 12px rgba(58, 118, 105, 0.04);
+    }
+
+    .link-block p {
+      font-size: 1rem;
+      color: #1d404b;
+      margin-bottom: 10px;
+    }
+
+    .link-block a {
+      color: #0c6f64;
+      text-decoration: none;
+      font-weight: 500;
+      border-bottom: 2px solid #98cfc4;
+      padding-bottom: 1px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .link-block a:hover {
+      border-bottom-color: #0f8575;
+      color: #064b41;
+    }
+
+    .faq-mini {
+      margin-top: 36px;
+      background: white;
+      border-radius: 32px;
+      padding: 24px 28px;
+      border: 1px solid #dbeee9;
+    }
+
+    .faq-mini h3 {
+      font-size: 1.15rem;
+      font-weight: 500;
+      color: #0d414b;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .faq-mini details {
+      padding: 8px 0;
+      border-bottom: 1px solid #e3f1ed;
+    }
+
+    .faq-mini details:last-of-type {
+      border-bottom: none;
+    }
+
+    .faq-mini summary {
+      font-weight: 470;
+      color: #154f5b;
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .faq-mini summary::before {
+      content: "▸";
+      color: #399a88;
+      font-size: 1.1rem;
+      transition: transform 0.15s;
+    }
+
+    .faq-mini details[open] summary::before {
+      transform: rotate(90deg);
+    }
+
+    .faq-mini .faq-answer {
+      padding: 10px 0 4px 22px;
+      color: #295961;
+      font-size: 0.93rem;
+    }
+
+    .footnote {
+      margin-top: 40px;
+      text-align: center;
+      font-size: 0.85rem;
+      color: #5a7d7e;
+      border-top: 1px solid #d0e3de;
+      padding-top: 24px;
+    }
+
+    /* 响应式 */
+    @media (min-width: 600px) {
+      .card-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (min-width: 800px) {
+      body {
+        padding: 32px 32px 60px;
+      }
+      .hero-card h1 {
+        font-size: 2.8rem;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .hero-card {
+        padding: 24px 18px;
+      }
+      .hero-card h1 {
+        font-size: 1.9rem;
+      }
+      .card {
+        padding: 20px 16px;
+      }
+      .link-block {
+        padding: 20px 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="page-wrapper">
+
+  <!-- 主视觉 hero 卡片式 -->
+  <div class="hero-card">
+    <h1>竞彩·信息指南</h1>
+    <span class="sub">⚡ 一分钟判断网站用途</span>
+    <p>面向希望快速理解 <strong>竞彩网</strong> 定位的新用户，我们从内容结构、使用场景和人群切入，帮你建立清晰认知。省去猜测，直接看到关键信息。</p>
+  </div>
+
+  <!-- 用途卡片·网格 -->
+  <div class="card-grid">
+    <div class="card">
+      <div class="icon-tag">📋 主要用途</div>
+      <h3>赛事数据与资讯聚合</h3>
+      <p>集中呈现足球、篮球等热门赛事的即时数据、历史统计与趋势图表。用户可以通过清晰分类快速定位自己关注的联赛或球队。</p>
+      <ul>
+        <li>赛程预告 &amp; 实时比分</li>
+        <li>阵容 &amp; 伤停动态</li>
+        <li>历史交锋记录</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="icon-tag">🧩 信息工具</div>
+      <h3>统计与筛选</h3>
+      <p>提供多维度筛选功能（联赛、日期、主客场），并整合赔率参考区间，辅助用户做独立分析。所有数据均标注来源，便于查证。</p>
+      <ul>
+        <li>自定义日期范围</li>
+        <li>主客场胜率分布</li>
+        <li>赔率区间概览</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="icon-tag">📱 使用方式</div>
+      <h3>网页端优先，适配移动</h3>
+      <p>页面采用响应式网格，手机横竖屏均可顺畅浏览。卡片层次分明，关键数字突出，减少无效滑动。</p>
+    </div>
+    <div class="card">
+      <div class="icon-tag">🔍 信息可信度</div>
+      <h3>中立内容原则</h3>
+      <p>不提供预测、不承诺结果，所有展示基于公开赛事数据。页面内嵌数据更新说明，用户可自行判断时效。</p>
+    </div>
+  </div>
+
+  <!-- 卡片式补充说明 -->
+  <div class="card-note">
+    <p><strong>为何强调「识别用途」？</strong> 不少用户初次接触竞彩类网站时容易混淆资讯平台与工具型网站。<a href="https://site-web-jingcai.com" style="color: #067565; border-bottom: 1px solid #4fbcac; text-decoration: none;">竞彩网</a> 的页面结构围绕「数据展示」和「分类筛选」设计，没有隐藏入口或复杂跳转，适合想直接获取赛事信息的人。</p>
+  </div>
+
+  <!-- 适合人群 双卡片风格 -->
+  <div class="audience-flex">
+    <div class="audience-item">
+      <span class="emoji-badge">🧑‍💻</span>
+      <h4>赛事爱好者</h4>
+      <p>每周关注多场联赛，需要快速查看比分、赛程和球队数据。卡片分类能节省逐页搜索的时间。</p>
+    </div>
+    <div class="audience-item">
+      <span class="emoji-badge">📊</span>
+      <h4>数据分析型用户</h4>
+      <p>习惯对比历史数据和赔率区间，自行归纳趋势。平台提供原始统计，不附加主观解读。</p>
+    </div>
+    <div class="audience-item">
+      <span class="emoji-badge">📱</span>
+      <h4>移动端浏览者</h4>
+      <p>通勤、碎片时间查看赛况，页面针对小屏幕优化关键信息层级，无需缩放或频繁横滑。</p>
+    </div>
+  </div>
+
+  <!-- 自然链接段落 (嵌入链接) -->
+  <div class="link-block">
+    <p>如果你正在寻找一个以赛事数据为核心、界面简洁的参考站点，<a href="https://site-web-jingcai.com">竞彩网</a> 的结构可能符合你的预期。它不强调社区讨论或内容推荐，而是将赛程、统计和筛选作为主线。从首页的卡片布局就能感受到：信息密度适中，蓝绿色分隔清晰，每个功能区都有明确标题。</p>
+    <p>对于新用户来说，建议先浏览「赛程日历」和「球队对比」两个模块，它们是理解网站数据维度的起点。其余如排名走势、进球分布等可作为进阶参考。</p>
+  </div>
+
+  <!-- FAQ 摘要 -->
+  <div class="faq-mini">
+    <h3>❓ 常见快速问题</h3>
+    <details>
+      <summary>这个网站主要提供什么？</summary>
+      <div class="faq-answer">围绕足球、篮球赛事提供结构化数据：赛程、比分、统计、赔率区间参考。没有用户投稿或论坛板块，专注信息展示。</div>
+    </details>
+    <details>
+      <summary>数据更新频率是怎样的？</summary>
+      <div class="faq-answer">比赛进行时比分及关键事件实时更新；赛前信息（阵容、伤停）通常在开赛前1–2小时刷新。历史数据每日同步调整。</div>
+    </details>
+    <details>
+      <summary>移动端功能有阉割吗？</summary>
+      <div class="faq-answer">核心筛选、卡片查看、数据排序等功能在手机浏览器上均可使用，无需下载应用。部分复杂图表在宽屏下展示更佳。</div>
+    </details>
+    <details>
+      <summary>是否需要注册才能浏览？</summary>
+      <div class="faq-answer">不需要。所有赛程、数据、统计页面均可直接访问，无需登录或提供个人信息。</div>
+    </details>
+  </div>
+
+  <!-- 脚注 - 无链接文本 -->
+  <div class="footnote">
+    <span>信息介绍页 · 基于公开数据整理 · 请以实际页面为准</span>
+  </div>
+
+</div>
+</body>
+</html>
